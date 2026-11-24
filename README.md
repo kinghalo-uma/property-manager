@@ -1,30 +1,33 @@
 # Property Manager
 
-A simple static website for keeping track of properties: address, tenant, rent, status, EPC details and a Google Maps view of each one.
+A simple static website for keeping track of properties. Everything is stored in your own Google Drive, so nothing is held in the browser or on a server.
 
-## Features
+## What it does
 
-- Add, edit and delete properties
-- EPC rating (A–G), score, certificate date and number, with an automatic expiry date (10 years) and warnings when it is expiring or expired
-- Links to the official EPC register (find-energy-certificate.service.gov.uk)
-- Google Maps embed for each property, plus optional Street View photo if you add a Maps API key in Settings
-- Search and status filter, plus a summary of occupied rent
-- Export and import as JSON for backups
+- Add, edit and delete properties (address, tenant, rent, status, EPC details)
+- Attach documents and photos to each property (EPC PDFs, tenancy agreements, inspection photos)
+- EPC expiry check (10 years from the certificate date) with warnings
+- Google Maps embed for each property, plus optional Street View photo
+- Search and status filter
 
-## Run it
+## How storage works
 
-Open `index.html` in a browser. No build step.
+- Sign in with Google once per visit. The site asks only for the `drive.file` permission, so it can see only files it created, nothing else in your Drive.
+- It creates a folder called **Property Manager** in your Drive.
+- Property details are saved in `properties.json` in that folder.
+- Each property gets its own sub-folder for documents and photos.
+- You can open and manage all of it directly in Google Drive too.
+
+Setup steps are in [SETUP-GOOGLE.md](SETUP-GOOGLE.md).
 
 ## Host it on GitHub Pages
 
-1. Push these files to your repository.
-2. In the repository go to **Settings > Pages**, choose the main branch and the root folder, then save.
-3. The site will appear at `https://<your-username>.github.io/<repo-name>/`.
+1. In the repository go to **Settings > Pages**.
+2. Choose the `main` branch and the root folder, then save.
+3. The site appears at `https://<your-username>.github.io/<repo-name>/`.
 
-## Privacy
+## Limits of this first version
 
-Property data is stored in your browser (localStorage), not in the repository, so it is not published. GitHub Pages sites are public, so anyone can open the page, but they will only see their own browser's data. Do not commit exported `properties.json` files to a public repository if they contain tenant details.
-
-## Google Maps key (optional)
-
-The map embed works without a key. For the Street View photo, create an API key in Google Cloud, enable the Street View Static API, restrict the key to your site's address, and paste it into **Settings**.
+- Single user. If two people or two devices edit at the same moment, the last save wins.
+- Access tokens last about an hour, then the site asks you to click Connect again.
+- The map embed works without a key; Street View photos need an optional Maps API key in Settings.
