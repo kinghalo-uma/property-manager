@@ -10,27 +10,36 @@
   <header class="top">
     <h1>Property Manager</h1>
     <div class="actions">
-      <button id="addBtn" class="primary">+ Add property</button>
-      <button id="exportBtn">Export</button>
-      <label class="btn">Import<input id="importFile" type="file" accept="application/json" hidden></label>
+      <span id="status" class="status" role="status"></span>
+      <button id="addBtn" class="primary" hidden>+ Add property</button>
       <button id="settingsBtn">Settings</button>
     </div>
   </header>
 
   <main>
-    <section class="toolbar">
-      <input id="search" type="search" placeholder="Search address, postcode, tenant…" aria-label="Search">
-      <select id="statusFilter" aria-label="Filter by status">
-        <option value="">All statuses</option>
-        <option>Occupied</option>
-        <option>Vacant</option>
-        <option>Maintenance</option>
-      </select>
-      <div id="summary" class="summary"></div>
+    <!-- Shown until Google Drive is connected -->
+    <section id="connectScreen" class="connect">
+      <h2>Connect Google Drive</h2>
+      <p>Your properties and documents are stored in your own Google Drive, in a folder called <strong>Property Manager</strong>. This site can only see files it created itself, nothing else in your Drive.</p>
+      <p id="needClientId" class="hint" hidden>First-time setup needed: add your Google client ID in <strong>Settings</strong>. Steps are in <code>SETUP-GOOGLE.md</code>.</p>
+      <button id="connectBtn" class="primary">Connect Google Drive</button>
     </section>
 
-    <section id="list" class="grid"></section>
-    <p id="empty" class="empty" hidden>No properties yet. Click <strong>+ Add property</strong> to add your first one.</p>
+    <!-- Shown once connected -->
+    <div id="app" hidden>
+      <section class="toolbar">
+        <input id="search" type="search" placeholder="Search address, postcode, tenant…" aria-label="Search">
+        <select id="statusFilter" aria-label="Filter by status">
+          <option value="">All statuses</option>
+          <option>Occupied</option>
+          <option>Vacant</option>
+          <option>Maintenance</option>
+        </select>
+        <div id="summary" class="summary"></div>
+      </section>
+      <section id="list" class="grid"></section>
+      <p id="empty" class="empty" hidden>No properties yet. Click <strong>+ Add property</strong> to add your first one.</p>
+    </div>
   </main>
 
   <!-- Add / edit -->
@@ -88,10 +97,14 @@
   <dialog id="settingsDialog">
     <form id="settingsForm" method="dialog">
       <h2>Settings</h2>
+      <label>Google client ID
+        <input name="clientId" autocomplete="off" placeholder="123456-abc.apps.googleusercontent.com">
+      </label>
+      <p class="hint">Created in Google Cloud (see SETUP-GOOGLE.md). It is a public identifier, not a password. It is saved in this browser; to set it for every device, put it in <code>config.js</code>.</p>
       <label>Google Maps API key (optional)
         <input name="mapsKey" autocomplete="off" placeholder="Leave blank to use the free map embed only">
       </label>
-      <p class="hint">A key adds a Street View photo of each property. Restrict the key to your site's address in Google Cloud so nobody else can use it. The key is saved only in this browser.</p>
+      <p class="hint">Adds a Street View photo. Restrict the key to your site's address in Google Cloud.</p>
       <div class="dialog-actions">
         <button type="button" id="settingsCancel">Cancel</button>
         <button type="submit" class="primary">Save</button>
@@ -99,7 +112,9 @@
     </form>
   </dialog>
 
-  <footer>Data is stored in this browser. Use <strong>Export</strong> to back it up.</footer>
+  <footer>Stored in your Google Drive (folder: Property Manager).</footer>
+  <script src="config.js"></script>
   <script src="app.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
 </html>

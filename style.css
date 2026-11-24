@@ -116,3 +116,19 @@ footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 24
 @media (max-width: 640px) {
   .detail-grid, .cols { grid-template-columns: 1fr; }
 }
+
+/* Google Drive additions */
+.status { color: var(--muted); font-size: .85rem; align-self: center; }
+.status.error { color: var(--danger); max-width: 360px; }
+.connect {
+  max-width: 520px; margin: 40px auto; padding: 24px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.connect h2 { margin-top: 0; }
+.files { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 12px; }
+.files h3 { margin: 0 0 8px; font-size: 1rem; }
+.file-row { display: flex; gap: 10px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.file-row a, .file-row > span:first-child { flex: 1; overflow-wrap: anywhere; }
+button.small { padding: 2px 10px; font-size: .85rem; }
+.file-list { margin-bottom: 10px; }
+code { background: var(--bg); padding: 1px 5px; border-radius: 4px; }
