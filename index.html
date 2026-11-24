@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Property Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Property Manager</h1>
+    <div class="actions">
+      <button id="addBtn" class="primary">+ Add property</button>
+      <button id="exportBtn">Export</button>
+      <label class="btn">Import<input id="importFile" type="file" accept="application/json" hidden></label>
+      <button id="settingsBtn">Settings</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="toolbar">
+      <input id="search" type="search" placeholder="Search address, postcode, tenant…" aria-label="Search">
+      <select id="statusFilter" aria-label="Filter by status">
+        <option value="">All statuses</option>
+        <option>Occupied</option>
+        <option>Vacant</option>
+        <option>Maintenance</option>
+      </select>
+      <div id="summary" class="summary"></div>
+    </section>
+
+    <section id="list" class="grid"></section>
+    <p id="empty" class="empty" hidden>No properties yet. Click <strong>+ Add property</strong> to add your first one.</p>
+  </main>
+
+  <!-- Add / edit -->
+  <dialog id="formDialog">
+    <form id="propForm" method="dialog">
+      <h2 id="formTitle">Add property</h2>
+      <div class="cols">
+        <label class="wide">Address<input name="address" required></label>
+        <label>Postcode<input name="postcode" required></label>
+        <label>Type
+          <select name="type">
+            <option>House</option><option>Flat</option><option>Bungalow</option><option>HMO</option><option>Commercial</option><option>Other</option>
+          </select>
+        </label>
+        <label>Bedrooms<input name="bedrooms" type="number" min="0" step="1"></label>
+        <label>Monthly rent (£)<input name="rent" type="number" min="0" step="1"></label>
+        <label>Status
+          <select name="status"><option>Occupied</option><option>Vacant</option><option>Maintenance</option></select>
+        </label>
+        <label>Tenant<input name="tenant"></label>
+      </div>
+
+      <fieldset>
+        <legend>EPC</legend>
+        <div class="cols">
+          <label>Rating
+            <select name="epcRating"><option value="">Unknown</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select>
+          </label>
+          <label>Score (1–100+)<input name="epcScore" type="number" min="1" step="1"></label>
+          <label>Date of certificate<input name="epcDate" type="date"></label>
+          <label>Certificate number (RRN)<input name="epcRrn" placeholder="0000-0000-0000-0000-0000"></label>
+        </div>
+      </fieldset>
+
+      <label>Notes<textarea name="notes" rows="3"></textarea></label>
+      <div class="dialog-actions">
+        <button type="button" id="formCancel">Cancel</button>
+        <button type="submit" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Detail -->
+  <dialog id="detailDialog" class="wide-dialog">
+    <div id="detailBody"></div>
+    <div class="dialog-actions">
+      <button id="detailDelete" class="danger">Delete</button>
+      <span class="spacer"></span>
+      <button id="detailEdit">Edit</button>
+      <button id="detailClose" class="primary">Close</button>
+    </div>
+  </dialog>
+
+  <!-- Settings -->
+  <dialog id="settingsDialog">
+    <form id="settingsForm" method="dialog">
+      <h2>Settings</h2>
+      <label>Google Maps API key (optional)
+        <input name="mapsKey" autocomplete="off" placeholder="Leave blank to use the free map embed only">
+      </label>
+      <p class="hint">A key adds a Street View photo of each property. Restrict the key to your site's address in Google Cloud so nobody else can use it. The key is saved only in this browser.</p>
+      <div class="dialog-actions">
+        <button type="button" id="settingsCancel">Cancel</button>
+        <button type="submit" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer>Data is stored in this browser. Use <strong>Export</strong> to back it up.</footer>
+  <script src="app.js"></script>
+</body>
+</html>
